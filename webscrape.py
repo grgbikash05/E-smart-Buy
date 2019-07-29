@@ -98,23 +98,44 @@ def webscrape(query, search_query):
 
         containers = parsed_html.find_all(q[3][0], {"class" : q[3][1]})
 
-        for container in containers:
-            price_of_product = container.find(q[5][0], {"class" : q[5][1]}).text
-            if(q[2] == "muncha"):
-                link_of_product = container.find(q[7][0], {"class" : q[7][1]})[q[7][2]]
-                title_of_product = container.find(q[4][0], {"class" : q[4][1]})[q[4][2]]
-                image_of_product = container.find(q[6][0], {"class" : q[6][1]})[q[6][2]]
-            elif(q[2] == "daraz"):
-                link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
-                image_of_product = None
-            elif(q[2] == "sastodeal"):
-                image_of_product = container.find(q[6][0], {"class" : q[6][1]}).a.img['src']
-                link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
-            elif(q[2] == "daraz" or q[2] == 'sastodeal'):
-                title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
+        if len(containers) <= 5:
+            for container in containers:
+                price_of_product = container.find(q[5][0], {"class" : q[5][1]}).text
+                if(q[2] == "muncha"):
+                    link_of_product = container.find(q[7][0], {"class" : q[7][1]})[q[7][2]]
+                    title_of_product = container.find(q[4][0], {"class" : q[4][1]})[q[4][2]]
+                    image_of_product = container.find(q[6][0], {"class" : q[6][1]})[q[6][2]]
+                elif(q[2] == "daraz"):
+                    link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
+                    image_of_product = None
+                elif(q[2] == "sastodeal"):
+                    image_of_product = container.find(q[6][0], {"class" : q[6][1]}).a.img['src']
+                    link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
+                elif(q[2] == "daraz" or q[2] == 'sastodeal'):
+                    title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
 
-            product.append({"Title" : title_of_product, "Price": price_of_product, "Image": image_of_product, "Link" : q[1] + link_of_product, "Site" : q[2]})
+                product.append({"Title" : title_of_product, "Price": price_of_product, "Image": image_of_product, "Link" : q[1] + link_of_product, "Site" : q[2]})
+        else:
+            i = 0
+            for container in containers:
+                price_of_product = container.find(q[5][0], {"class" : q[5][1]}).text
+                if(q[2] == "muncha"):
+                    link_of_product = container.find(q[7][0], {"class" : q[7][1]})[q[7][2]]
+                    title_of_product = container.find(q[4][0], {"class" : q[4][1]})[q[4][2]]
+                    image_of_product = container.find(q[6][0], {"class" : q[6][1]})[q[6][2]]
+                elif(q[2] == "daraz"):
+                    link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
+                    image_of_product = None
+                elif(q[2] == "sastodeal"):
+                    image_of_product = container.find(q[6][0], {"class" : q[6][1]}).a.img['src']
+                    link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
+                elif(q[2] == "daraz" or q[2] == 'sastodeal'):
+                    title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
 
+                product.append({"Title" : title_of_product, "Price": price_of_product, "Image": image_of_product, "Link" : q[1] + link_of_product, "Site" : q[2]})
+                i = i + 1
+                if i == 5:
+                    break
     return product
     
 

@@ -26,6 +26,16 @@ class SearchController extends Controller
 
         curl_close($ch);
 
-        echo $output;
+        $results = json_decode($output);
+        
+        $names=[];
+        if(!empty($results)) {
+            foreach ($results as $my_object) {
+                $names[] =  preg_replace("/[^-0-9]+/", '', $my_object->Price);
+            }
+            array_multisort($names, SORT_ASC, $results);
+        }
+
+        print_r($results);
     }
 }
