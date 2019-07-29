@@ -22,13 +22,18 @@
     <div class="container">
         <form action="/search" method="GET">
           {{ csrf_field() }}
-          <div class="input-group mb-3">
-              <input type="text" id="product" class="form-control" name="product" placeholder="Search your item" aria-label="Search your products..." aria-describedby="button-addon2">
+          <div class="input-group mb-2">
+              <input type="text" id="product" class="form-control{{ $errors->has('product') ? ' is-invalid' : '' }}" name="product" placeholder="Search your item" aria-label="Search your products..." aria-describedby="button-addon2">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search text-grey"
                   aria-hidden="true"></i></button>
               </div>
           </div>
+          @if ($errors->has('product'))
+            <span class="invalid-feedback d-block mb-3 mt-0" role="alert">
+                <strong>{{ $errors->first('product') }}</strong>
+            </span>
+          @endif
         </form>
     </div>
 

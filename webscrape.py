@@ -82,6 +82,19 @@ def test(search_query):
     results = webscrape(query, search_query)
     return jsonify(results)
 
+def price_filter(price_of_product):
+    temp = ''
+    found = False
+    for c in price_of_product:
+        try:
+            int(c)
+            temp+=c
+            found=True
+        except:
+            if(c!=',' and found==True):
+                break
+    return temp
+
 def webscrape(query, search_query):
     chrome_path = r"C:\Users\Bikash\Desktop\chromedriver\chromedriver.exe"
     driver = webdriver.Chrome(chrome_path)
@@ -101,6 +114,8 @@ def webscrape(query, search_query):
         if len(containers) <= 5:
             for container in containers:
                 price_of_product = container.find(q[5][0], {"class" : q[5][1]}).text
+                
+                price_of_product = price_filter(price_of_product)
                 if(q[2] == "muncha"):
                     link_of_product = container.find(q[7][0], {"class" : q[7][1]})[q[7][2]]
                     title_of_product = container.find(q[4][0], {"class" : q[4][1]})[q[4][2]]
@@ -114,11 +129,13 @@ def webscrape(query, search_query):
                 elif(q[2] == "daraz" or q[2] == 'sastodeal'):
                     title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
 
-                product.append({"Title" : title_of_product, "Price": price_of_product, "Image": image_of_product, "Link" : q[1] + link_of_product, "Site" : q[2]})
+                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
         else:
             i = 0
             for container in containers:
                 price_of_product = container.find(q[5][0], {"class" : q[5][1]}).text
+                price_of_product = price_filter(price_of_product)
+
                 if(q[2] == "muncha"):
                     link_of_product = container.find(q[7][0], {"class" : q[7][1]})[q[7][2]]
                     title_of_product = container.find(q[4][0], {"class" : q[4][1]})[q[4][2]]
@@ -132,7 +149,7 @@ def webscrape(query, search_query):
                 elif(q[2] == "daraz" or q[2] == 'sastodeal'):
                     title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
 
-                product.append({"Title" : title_of_product, "Price": price_of_product, "Image": image_of_product, "Link" : q[1] + link_of_product, "Site" : q[2]})
+                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
                 i = i + 1
                 if i == 5:
                     break

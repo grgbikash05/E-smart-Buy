@@ -10688,3 +10688,7 @@ a.text-dark:focus {
   border-radius: 4px;
 }
 
+.invalid-feedback {
+  font-size: 14px;
+}
+
