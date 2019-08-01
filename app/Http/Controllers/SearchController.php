@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function search(Request $request) {
         $request->validate([
             'product' => "required",
@@ -24,21 +30,15 @@ class SearchController extends Controller
 
         $product = str_replace(" ", '+', $product);
 
-        $search_item = DB::table('products')->where('search_query', $product_for_query)->first();
+        $search_item = DB::table('searchlists')->where('search_query', $product_for_query)->first();
 
         if(!empty($search_item)) {
             if($search_item->search_query === $product_for_query) {
-                $products = DB::table('products')->where('search_query', $product_for_query)->get();
+                $results = DB::table('products')->where('search_id', $search_item->id)->get();
 
-                DB::table('products')->where('search_query', $product_for_query)->increment('count');
+                DB::table('products')->where('search_id', $search_item->id)->increment('count');
 
-                echo "From database";
-
-                echo "<pre>";
-
-                print_r($products);
-
-                echo "</pre>";
+                return view('results', compact('results'));
             }
         } else {
             $ch = curl_init();
@@ -62,19 +62,27 @@ class SearchController extends Controller
             }
 
             if(!is_null($results)) {
+                $values = ['user_id' => Auth::id(), 'search_query' => $product_for_query, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
+
+                DB::table('searchlists')->insert($values);
+
+                $new_searchlist = DB::table('searchlists')->where('search_query', $product_for_query)->first();
+                
                 foreach($results as $result) {
-                    $values = ['search_query' => $product_for_query, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
+                    $values = ['search_id' => $new_searchlist->id, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
                     DB::table('products')->insert($values);
                 }
             }
 
-            echo "From webscraping </br>";
-
-            echo "<pre>";
-
-            var_dump($results);
-
-            echo "</pre>";
+            return view('results', compact('results'));
         }
     }
+
+    public function products($id) {
+        $results = DB::table('products')->where('search_id', $id)->get();
+
+        DB::table('products')->where('search_id', $id)->increment('count');
+
+        return view('results', compact('results'));
+    } 
 }

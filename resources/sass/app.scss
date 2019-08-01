@@ -60,3 +60,25 @@
 .invalid-feedback {
     font-size: 14px;
 }
+
+.navbar-brand {
+    img {
+        width: 150px;
+    }
+}
+
+.productBox {
+    padding: 0 15px;
+    background-color: white;
+    height: 120px;
+}
+
+.inner {
+    margin: 5px auto;
+    display: block;
+    text-align: center;
+}
+
+.inner .centerMainRow {
+    padding: 0 25px;
+}
