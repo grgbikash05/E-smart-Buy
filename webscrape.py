@@ -113,6 +113,7 @@ def webscrape(query, search_query):
 
         if len(containers) <= 5:
             for container in containers:
+                global title_of_product
                 price_of_product = container.find(q[5][0], {"class" : q[5][1]}).text
                 
                 price_of_product = price_filter(price_of_product)
@@ -126,10 +127,15 @@ def webscrape(query, search_query):
                 elif(q[2] == "sastodeal"):
                     image_of_product = container.find(q[6][0], {"class" : q[6][1]}).a.img['src']
                     link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
-                elif(q[2] == "daraz" or q[2] == 'sastodeal'):
+                elif(q[2] == 'sastodeal'):
                     title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
 
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
+                if(q[2] == 'daraz'):
+                    product.append({"title" : "Daraz product", "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
+                elif(q[2] == 'sastodeal'):
+                    product.append({"title" : "Sasto deal product", "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
         else:
             i = 0
             for container in containers:
@@ -146,10 +152,15 @@ def webscrape(query, search_query):
                 elif(q[2] == "sastodeal"):
                     image_of_product = container.find(q[6][0], {"class" : q[6][1]}).a.img['src']
                     link_of_product = container.find(q[7][0], {"class" : q[7][1]}).a['href']
-                elif(q[2] == "daraz" or q[2] == 'sastodeal'):
+                elif(q[2] == 'sastodeal'):
                     title_of_product = container.find(q[4][0], {"class" : q[4][1]}).a.text
 
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
+                if(q[2] == 'daraz'):
+                    product.append({"title" : "Daraz product", "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
+                elif(q[2] == 'sastodeal'):
+                    product.append({"title" : "Sasto deal product", "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : q[1] + link_of_product, "site" : q[2]})
                 i = i + 1
                 if i == 5:
                     break

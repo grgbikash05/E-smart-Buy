@@ -15,13 +15,14 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('search_id');
+            $table->string('search_query')->nullable();
+            $table->integer('count')->default(1);
             $table->string('title')->nullable();
             $table->string('price')->nullable();
-            $table->string('image')->nullable();
-            $table->string('link')->nullable();
+            $table->longText('image')->nullable();
+            $table->longText('link')->nullable();
             $table->string('site')->nullable();
-            $table->timestamps();
+            $table->datetime('created_at')->nullable();
         });
     }
 
