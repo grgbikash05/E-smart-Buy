@@ -30,13 +30,23 @@ class SearchController extends Controller
 
         $product = str_replace(" ", '+', $product);
 
-        $search_item = DB::table('searchlists')->where('search_query', $product_for_query)->first();
+        $searchquery = DB::table('searchqueries')->where('search_query', $product_for_query)->first();
 
-        if(!empty($search_item)) {
-            if($search_item->search_query === $product_for_query) {
-                $results = DB::table('products')->where('search_id', $search_item->id)->get();
+        if(!empty($searchquery)) {
+            if($searchquery->search_query === $product_for_query) {
+                $results = DB::table('products')->where('search_query_id', $searchquery->id)->get();
 
-                DB::table('products')->where('search_id', $search_item->id)->increment('count');
+                $alreadyUsers = DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $searchquery->id)->first();
+
+                if(empty($alreadyUsers)) {
+                    $values = ['user_id' => Auth::id(), 'search_query_id' => $searchquery->id, 'created_at' => $searchquery->created_at];
+
+                    DB::table('searchlists')->insert($values);
+                } else {
+                    DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $searchquery->id)->increment('no_of_clicks_by_user');
+                }
+
+                DB::table('searchqueries')->where('id', $searchquery->id)->increment('count');
 
                 return view('results', compact('results'));
             }
@@ -62,14 +72,18 @@ class SearchController extends Controller
             }
 
             if(!is_null($results)) {
-                $values = ['user_id' => Auth::id(), 'search_query' => $product_for_query, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
+                $values = ['search_query' => $product_for_query, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
 
-                DB::table('searchlists')->insert($values);
+                DB::table('searchqueries')->insert($values);
 
-                $new_searchlist = DB::table('searchlists')->where('search_query', $product_for_query)->first();
+                $new_search_query = DB::table('searchqueries')->where('search_query', $product_for_query)->first();
+
+                $values2 = ['user_id' => Auth::id(), 'search_query_id' => $new_search_query->id, 'created_at' => $new_search_query->created_at];
+
+                DB::table('searchlists')->insert($values2);
                 
                 foreach($results as $result) {
-                    $values = ['search_id' => $new_searchlist->id, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
+                    $values = ['search_query_id' => $new_search_query->id, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
                     DB::table('products')->insert($values);
                 }
             }
@@ -79,9 +93,21 @@ class SearchController extends Controller
     }
 
     public function products($id) {
-        $results = DB::table('products')->where('search_id', $id)->get();
+        $results = DB::table('products')->where('search_query_id', $id)->get();
 
-        DB::table('products')->where('search_id', $id)->increment('count');
+        $searchqueries = DB::table('searchqueries')->where('id', $id)->first();
+
+        $alreadyUsers = DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $id)->first();
+
+        if(empty($alreadyUsers)) {
+            $values = ['user_id' => Auth::id(), 'search_query_id' => $id, 'created_at' => $searchqueries->created_at];
+
+            DB::table('searchlists')->insert($values);
+        } else {
+            DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $id)->increment('no_of_clicks_by_user');
+        }
+
+        DB::table('searchqueries')->where('id', $id)->increment('count');
 
         return view('results', compact('results'));
     } 

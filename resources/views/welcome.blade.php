@@ -38,7 +38,7 @@
                 <?php foreach($results as $result): ?>
             
                 <div class="col-2 box">
-                    <div class="inner"><a class="search_item" href="/product/{{ $result->search_id }}"><?php echo $result->search_id; ?> <span class="badge badge-light"><?php echo $result->count; ?></span></a></div>
+                    <div class="inner"><a class="search_item" href="/product/{{ $result->id }}"><?php echo $result->search_query; ?> <span class="badge badge-light"><?php echo $result->count; ?></span></a></div>
                 </div>
 
                 <?php endforeach; ?>

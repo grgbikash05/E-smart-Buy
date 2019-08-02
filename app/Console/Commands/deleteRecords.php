@@ -42,5 +42,7 @@ class deleteRecords extends Command
         DB::table('products')->where('created_at', '<=', Carbon::now()->subDays())->delete();
 
         DB::table('searchlists')->where('created_at', '<=', Carbon::now()->subDays())->delete();
+
+        DB::table('searchqueries')->where('created_at', '<=', Carbon::now()->subDays())->delete();
     }
 }
