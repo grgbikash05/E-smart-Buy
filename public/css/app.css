@@ -10712,3 +10712,45 @@ a.text-dark:focus {
   padding: 0 25px;
 }
 
+.section--product-results .container .row {
+  padding: 10px 20px;
+  border-bottom: solid 1px grey;
+  border-left: solid 1px grey;
+  border-right: solid 1px grey;
+}
+
+.section--product-results .container .row:first-child {
+  border-top: solid 1px grey;
+}
+
+.section--product-results .product--image {
+  width: 100px;
+  margin: 0 auto;
+}
+
+.section--product-results .product--image img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.section--product-results .product--title {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.section--product-results .site--logo {
+  width: 130px;
+}
+
+.section--product-results .col-md-6,
+.section--product-results .col-md-3 {
+  display: flex;
+  align-items: center;
+}
+
+.section--product-results .product-price {
+  font-size: 18px;
+  font-weight: bold;
+}
+

@@ -82,3 +82,45 @@
 .inner .centerMainRow {
     padding: 0 25px;
 }
+
+.section--product-results {
+    .container .row {
+        padding: 10px 20px;
+        border-bottom: solid 1px grey;
+        border-left: solid 1px grey;
+        border-right: solid 1px grey;
+
+        &:first-child {
+            border-top: solid 1px grey;
+        }
+    }
+
+    .product--image {
+        width: 100px;
+        margin: 0 auto;
+
+        img {
+            object-fit: cover;
+        }
+    }
+
+    .product--title {
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .site--logo {
+        width: 130px;
+    }
+
+    .col-md-6, .col-md-3 {
+        display: flex;
+        align-items: center;
+    }
+
+    .product-price {
+        font-size: 18px;
+        font-weight: bold;
+    }
+}
