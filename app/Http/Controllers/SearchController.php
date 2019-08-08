@@ -30,24 +30,78 @@ class SearchController extends Controller
 
         $product = str_replace(" ", '+', $product);
 
-        $searchquery = DB::table('searchqueries')->where('search_query', $product_for_query)->first();
+        $searchquery = DB::table('search_queries')->where('search_query', $product_for_query)->first();
 
         if(!empty($searchquery)) {
-            if($searchquery->search_query === $product_for_query) {
-                $results = DB::table('products')->where('search_query_id', $searchquery->id)->get();
+            $today_search_query = DB::table('top_searches_todays')->where('search_id', $searchquery->id)->first();
 
-                $alreadyUsers = DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $searchquery->id)->first();
-
-                if(empty($alreadyUsers)) {
-                    $values = ['user_id' => Auth::id(), 'search_query_id' => $searchquery->id, 'created_at' => $searchquery->created_at];
-
-                    DB::table('searchlists')->insert($values);
+            if(!empty($today_search_query)) {
+                $search_id = $searchquery->id;
+    
+                $user_searches = DB::table('user_searches')->where('user_id', Auth::id())->where('search_id', $search_id)->first();
+    
+                if(!empty($user_searches)) {
+                    DB::table('user_searches')->where('user_id', Auth::id())->where('search_id', $search_id)->increment('count');
                 } else {
-                    DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $searchquery->id)->increment('no_of_clicks_by_user');
+                    $values = ['user_id' => Auth::id(), 'search_id' => $search_id];
+                    DB::table('user_searches')->insert($values);
+                }
+    
+                $today_searches_today = DB::table('top_searches_todays')->where('search_id', $search_id)->first();
+    
+                if(!empty($today_searches_today)) {
+                    DB::table('top_searches_todays')->where('search_id', $search_id)->increment('total_searches_today');
+                } else {
+                    $values = ['search_id' => $search_id];
+                    DB::table('top_searches_todays')->insert($values);
+                }
+                
+                $results = DB::table('products')->where('search_id', $search_id)->get();
+
+                return view('results', compact('results'));
+
+            } else {
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8080/". $product);
+
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+                $output = curl_exec($ch); 
+
+                curl_close($ch);
+
+                $results = json_decode($output);
+                
+                $names=[];
+                if(!empty($results)) {
+                    foreach ($results as $my_object) {
+                        $names[] =  $my_object->price;
+                    }
+                    array_multisort($names, SORT_ASC, $results);
                 }
 
-                DB::table('searchqueries')->where('id', $searchquery->id)->increment('count');
+                if(!is_null($results)) {
+                    $searchquery = DB::table('search_queries')->where('search_query', $product_for_query)->first();
 
+                    $values = ['search_id' => $searchquery->id, 'created_at' => Carbon::now()];
+
+                    DB::table('top_searches_todays')->insert($values);
+
+                    $user_searches = DB::table('user_searches')->where('search_id', $searchquery->id)->where('user_id', Auth::id())->first();
+
+                    if(!empty($user_searches)) {
+                        DB::table('user_searches')->where('search_id', $searchquery->id)->where('user_id', Auth::id())->increment('count');
+                    } else {
+                        $values = ['user_id' => Auth::id(), 'search_id' => $searchquery->id];
+                        DB::table('user_searches')->insert($values);
+                    }
+
+                    foreach($results as $result) {
+                        $values = ['search_id' => $searchquery->id, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
+                        DB::table('products')->insert($values);
+                    }
+                }
                 return view('results', compact('results'));
             }
         } else {
@@ -72,18 +126,33 @@ class SearchController extends Controller
             }
 
             if(!is_null($results)) {
-                $values = ['search_query' => $product_for_query, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
+                $searchquery = DB::table('search_queries')->where('search_query', $product_for_query)->first();
+                
+                if(!empty($searchquery)) {
+                    $search_id = $searchquery->id;
+                } else {
+                    $values = ['search_query' => $product_for_query];
 
-                DB::table('searchqueries')->insert($values);
+                    DB::table('search_queries')->insert($values);
+                }
 
-                $new_search_query = DB::table('searchqueries')->where('search_query', $product_for_query)->first();
+                $new_search_query = DB::table('search_queries')->where('search_query', $product_for_query)->first();
 
-                $values2 = ['user_id' => Auth::id(), 'search_query_id' => $new_search_query->id, 'created_at' => $new_search_query->created_at];
+                $values2 = ['user_id' => Auth::id(), 'search_id' => $new_search_query->id];
 
-                DB::table('searchlists')->insert($values2);
+                DB::table('user_searches')->insert($values2);
+
+                $today_searches = DB::table('top_searches_todays')->where('search_id', $new_search_query->id)->first();
+
+                if(!empty($today_searches)) {
+                    DB::table('top_searches_todays')->where('search_id', $new_search_query->id)->increment('total_searches_today');
+                } else {
+                    $values = ['search_id' => $new_search_query->id, 'created_at' => Carbon::now()];
+                    DB::table('top_searches_todays')->insert($values);
+                }
                 
                 foreach($results as $result) {
-                    $values = ['search_query_id' => $new_search_query->id, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
+                    $values = ['search_id' => $new_search_query->id, 'title' => $result->title, 'price' => $result->price, 'image' => $result->image, 'link' => $result->link, 'site' => $result->site, 'created_at' => Carbon::now()];
                     DB::table('products')->insert($values);
                 }
             }
@@ -93,22 +162,19 @@ class SearchController extends Controller
     }
 
     public function products($id) {
-        $results = DB::table('products')->where('search_query_id', $id)->get();
+        $results = DB::table('products')->where('search_id', $id)->get();
 
-        $searchqueries = DB::table('searchqueries')->where('id', $id)->first();
+        DB::table('top_searches_todays')->where('search_id', $id)->increment('total_searches_today');
 
-        $alreadyUsers = DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $id)->first();
+        $alreadyUser = DB::table('user_searches')->where('search_id', $id)->where('user_id', Auth::id())->first();
 
-        if(empty($alreadyUsers)) {
-            $values = ['user_id' => Auth::id(), 'search_query_id' => $id, 'created_at' => $searchqueries->created_at];
-
-            DB::table('searchlists')->insert($values);
+        if(!empty($alreadyUser)) {
+            DB::table('user_searches')->where('search_id', $id)->where('user_id', Auth::id())->increment('count');
         } else {
-            DB::table('searchlists')->where('user_id', Auth::id())->where('search_query_id', $id)->increment('no_of_clicks_by_user');
+            $values = ['user_id' => Auth::id(), 'search_id' => $id];
+            DB::table('user_searches')->insert($values);
         }
 
-        DB::table('searchqueries')->where('id', $id)->increment('count');
-
         return view('results', compact('results'));
-    } 
+    }
 }

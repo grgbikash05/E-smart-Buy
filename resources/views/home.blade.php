@@ -37,7 +37,7 @@
     </ul>
 
     <div class="brand-logo">
-        <img src="eSmartBuy.png">
+        <h1 style="text-align: center;">Best price finder</h1>
     </div>
 
     <div class="container landingDisc">

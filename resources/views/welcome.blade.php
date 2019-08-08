@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="brand-logo center">
-        <img src="{{ URL::asset('images/eSmartBuy.png') }}">
+        <h1 style="text-align: center;">Best price finder</h1>
     </div>
 
     <div class="container disc">
@@ -12,7 +12,6 @@
 
     <div class="container">
         <form action="/search" method="GET">
-          {{ csrf_field() }}
           <div class="input-group mb-2">
               <input type="text" id="product" class="form-control{{ $errors->has('product') ? ' is-invalid' : '' }}" name="product" placeholder="Search your item" aria-label="Search your products..." aria-describedby="button-addon2">
               <div class="input-group-append">
@@ -28,22 +27,46 @@
         </form>
     </div>
 
+    @if(!empty($recommended_search_query))
+
     <div class="container ts">
-        <p>Top searches today</p>
+        <p>You may want to search for:</p>
+    </div>
+
+    <div class="container" style="margin-bottom: 20px;">
+        <div class="row">
+            @foreach($recommended_search_query as $recommend)
+                <div class="col-2 box">
+                    <div class="inner"><?php echo $recommend[0]; ?></div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    @endif
+
+    @if(!empty($top_searches_today))
+
+    <div class="container ts">
+        <p style="">Top searches today</p>
     </div>
     
     <div class="container">
         <div class="row">
-            <?php if(!empty($results)): ?>
-                <?php foreach($results as $result): ?>
-            
-                <div class="col-2 box">
-                    <div class="inner"><a class="search_item" href="/product/{{ $result->id }}"><?php echo $result->search_query; ?> <span class="badge badge-light"><?php echo $result->count; ?></span></a></div>
-                </div>
+            <?php foreach($top_searches_today as $result): ?>
 
-                <?php endforeach; ?>
-            <?php endif; ?>
+            <?php foreach($result as $re): ?>
+
+            <div class="col-2 box">
+                <div class="inner"><a class="search_item" href="/product/{{ $re['id'] }}"><?php echo $re['search_query']; ?> <span class="badge badge-light"><?php echo $re['count']; ?></span></a></div>
+            </div>
+
+            <?php endforeach; ?>
+
+            <?php endforeach; ?>
         </div>
     </div>
+
+    @endif
 
 @endsection

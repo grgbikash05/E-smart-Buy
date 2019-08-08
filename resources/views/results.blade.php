@@ -4,7 +4,6 @@
 
     <div class="container">
         <form action="/search" method="GET">
-          {{ csrf_field() }}
           <div class="input-group mb-2">
               <input value="<?php echo isset($_GET['product']) ? $_GET['product'] : ''; ?>" type="text" id="product" class="form-control{{ $errors->has('product') ? ' is-invalid' : '' }}" name="product" placeholder="Search your item" aria-label="Search your products..." aria-describedby="button-addon2">
               <div class="input-group-append">
@@ -57,7 +56,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="text-danger">Something went wrong. Please try again.</div>
+                <div class="text-danger">No products found.</div>
             </div>
         </div>
 

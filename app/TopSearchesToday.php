@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Searchlist extends Model
+class TopSearchesToday extends Model
 {
     protected $guarded = [];
 }

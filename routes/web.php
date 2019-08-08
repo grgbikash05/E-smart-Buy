@@ -13,12 +13,12 @@
 
 Route::get('/', 'HomeController@homepage');
 
-Route::get('/start-comparing', 'HomeController@index')->middleware('auth', 'verified');
+Route::get('/start-comparing', 'HomeController@index');
 
 // Search Functions
 
-Route::get('/search', 'SearchController@search')->middleware('verified');
+Route::get('/search', 'SearchController@search');
 
-Route::get('/product/{id}', 'SearchController@products')->middleware('auth', 'verified');
+Route::get('/product/{id}', 'SearchController@products');
 
 Auth::routes(['verify' => true]);

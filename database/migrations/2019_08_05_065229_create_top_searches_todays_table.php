@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSearchlistsTable extends Migration
+class CreateTopSearchesTodaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateSearchlistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('searchlists', function (Blueprint $table) {
+        Schema::create('top_searches_todays', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->string('search_query_id');
-            $table->integer('no_of_clicks_by_user')->default(1);
-            $table->timestamps();
+            $table->integer('search_id')->nullable();
+            $table->integer('total_searches_today')->default(1);
+            $table->datetime('created_at')->nullable();
         });
     }
 
@@ -29,6 +28,6 @@ class CreateSearchlistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('searchlists');
+        Schema::dropIfExists('top_searches_todays');
     }
 }

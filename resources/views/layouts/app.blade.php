@@ -27,7 +27,7 @@
       <div class="container">
           <a class="navbar-brand" href="{{ url('/start-comparing') }}">
               <!-- {{ config('app.name', 'E-smart Buy') }} -->
-              <img src="{{ URL::asset('images/eSmartBuy.png') }}">
+              <h1 style="font-size: 16px;">Best price finder</h1>
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
               <span class="navbar-toggler-icon"></span>

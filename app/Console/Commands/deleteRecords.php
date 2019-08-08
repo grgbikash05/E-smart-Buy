@@ -20,7 +20,7 @@ class deleteRecords extends Command
      *
      * @var string
      */
-    protected $description = 'A command to delete rows which are 24hours older';
+    protected $description = 'A command to delete products and top searches today which are 24hours older';
 
     /**
      * Create a new command instance.
@@ -41,8 +41,6 @@ class deleteRecords extends Command
     {
         DB::table('products')->where('created_at', '<=', Carbon::now()->subDays())->delete();
 
-        DB::table('searchlists')->where('created_at', '<=', Carbon::now()->subDays())->delete();
-
-        DB::table('searchqueries')->where('created_at', '<=', Carbon::now()->subDays())->delete();
+        DB::table('top_searches_todays')->where('created_at', '<=', Carbon::now()->subDays())->delete();
     }
 }
