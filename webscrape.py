@@ -46,7 +46,10 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("a", {"class" : "woocommerce-LoopProduct-link"}).img['src']
                 link_of_product = container.a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "http://gajabko.com/wp-content/themes/gajabkotheme/img/logo.png"})
+                if(price_of_product == '0'):
+                    print('')
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "http://gajabko.com/wp-content/themes/gajabkotheme/img/logo.png"})
         else:
             i = 0
             for container in containers:
@@ -55,10 +58,13 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("a", {"class" : "woocommerce-LoopProduct-link"}).img['src']
                 link_of_product = container.a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "http://gajabko.com/wp-content/themes/gajabkotheme/img/logo.png"})
-                i = i + 1
-                if i == 15:
-                    break
+                if(price_of_product == '0'):
+                    print('')
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "http://gajabko.com/wp-content/themes/gajabkotheme/img/logo.png"})
+                    i = i + 1
+                    if i == 15:
+                        break
     except:
         pass
 
@@ -82,7 +88,10 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "product-img-wrap"}).img['src']
                 link_of_product = container.find("a", {"class" : "product-link"})['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : "https://muncha.com/" + link_of_product, "site" : "https://muncha.com/assets/images/logo.gif"})
+                if(price_of_product == '0'):
+                    print('')
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : "https://muncha.com/" + link_of_product, "site" : "https://muncha.com/assets/images/logo.gif"})
         else:
             i = 0
             for container in containers:
@@ -91,10 +100,13 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "product-img-wrap"}).img['src']
                 link_of_product = container.find("a", {"class" : "product-link"})['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : "https://muncha.com/" + link_of_product, "site" : "https://muncha.com/assets/images/logo.gif"})
-                i = i + 1
-                if i == 15:
-                    break
+                if(price_of_product != '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : "https://muncha.com/" + link_of_product, "site" : "https://muncha.com/assets/images/logo.gif"})
+                    i = i + 1
+                    if i == 15:
+                        break
     except:
         pass
         
@@ -117,7 +129,10 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "PicImgGrid"}).a.img['src']
                 link_of_product = container.find("div", {"class" : "PicImgGrid"}).a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://market.thulo.com/uploads/2018082815354524400.svg"})
+                if(price_of_product == '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://market.thulo.com/uploads/2018082815354524400.svg"})
         else:
             i = 0
             for container in containers:
@@ -126,10 +141,13 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "PicImgGrid"}).a.img['src']
                 link_of_product = container.find("div", {"class" : "PicImgGrid"}).a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://market.thulo.com/uploads/2018082815354524400.svg"})
-                i = i + 1
-                if i == 15:
-                    break
+                if(price_of_product == '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://market.thulo.com/uploads/2018082815354524400.svg"})
+                    i = i + 1
+                    if i == 15:
+                        break
     except:
         pass
 
@@ -152,7 +170,10 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "image"}).a.img['src']
                 link_of_product = container.find("div", {"class" : "image"}).a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.nepkart.com/image/data/nepkart-logo.png"})
+                if(price_of_product == '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.nepkart.com/image/data/nepkart-logo.png"})
         else:
             i = 0
             for container in containers:
@@ -161,10 +182,13 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "image"}).a.img['src']
                 link_of_product = container.find("div", {"class" : "image"}).a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.nepkart.com/image/data/nepkart-logo.png"})
-                i = i + 1
-                if i == 15:
-                    break
+                if(price_of_product == '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.nepkart.com/image/data/nepkart-logo.png"})
+                    i = i + 1
+                    if i == 15:
+                        break
     except:
         pass
 
@@ -187,7 +211,10 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "product-item-photo"}).a.img['src']
                 link_of_product = container.find("div", {"class" : "product-item-photo"}).a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.olizstore.com/pub/media/porto/sticky_logo/default/olizLogo.png"})
+                if(price_of_product == '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.olizstore.com/pub/media/porto/sticky_logo/default/olizLogo.png"})
         else:
             i = 0
             for container in containers:
@@ -196,10 +223,13 @@ def webscrape(search_query):
                 price_of_product = price_filter(price_of_product)
                 image_of_product = container.find("div", {"class" : "product-item-photo"}).a.img['src']
                 link_of_product = container.find("div", {"class" : "product-item-photo"}).a['href']
-                product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.olizstore.com/pub/media/porto/sticky_logo/default/olizLogo.png"})
-                i = i + 1
-                if i == 15:
-                    break
+                if(price_of_product == '0'):
+                    print("")
+                else:
+                    product.append({"title" : title_of_product, "price": price_of_product, "image": image_of_product, "link" : link_of_product, "site" : "https://www.olizstore.com/pub/media/porto/sticky_logo/default/olizLogo.png"})
+                    i = i + 1
+                    if i == 15:
+                        break
     except:
         pass
 

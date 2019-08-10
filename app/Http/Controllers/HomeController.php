@@ -51,7 +51,11 @@ class HomeController extends Controller
         foreach($todays_seach_query as $today) {
             $top = DB::table('search_queries')->where('id', $today->search_id)->first();
 
-            $top_searches_today[] = (object) array(['id' => $top->id, 'search_query' => $top->search_query, 'count' => $today->total_searches_today]);
+            $products = DB::table('products')->where('search_id', $today->search_id)->first();
+
+            if(!empty($products)) {
+                $top_searches_today[] = (object) array(['id' => $top->id, 'search_query' => $top->search_query, 'count' => $today->total_searches_today]);
+            }
         }
 
         $names = [];
