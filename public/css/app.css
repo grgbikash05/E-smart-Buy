@@ -10663,6 +10663,11 @@ a.text-dark:focus {
   margin-top: 85px;
 }
 
+.brand-logo h1 {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+}
+
 .disc {
   margin-top: 20px;
 }
@@ -10671,11 +10676,6 @@ a.text-dark:focus {
   text-align: center;
   font-size: 16px;
   font-weight: 400;
-}
-
-.container {
-  padding-left: 180px;
-  padding-right: 180px;
 }
 
 .box {
@@ -10693,7 +10693,7 @@ a.text-dark:focus {
 }
 
 .navbar-brand img {
-  width: 150px;
+  width: 40px;
 }
 
 .productBox {
@@ -10752,5 +10752,42 @@ a.text-dark:focus {
 .section--product-results .product-price {
   font-size: 18px;
   font-weight: bold;
+}
+
+.card-header {
+  background-color: #383229;
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #f15722;
+  border-color: #f15722;
+  border-radius: 0;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: #383229 !important;
+  border-color: #383229 !important;
+}
+
+.btn-primary:focus {
+  border-color: #383229 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.btn-link {
+  color: #f15722 !important;
+}
+
+.container {
+  width: 70%;
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
 }
 

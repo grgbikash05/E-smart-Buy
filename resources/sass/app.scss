@@ -27,10 +27,15 @@
 
 .brand-logo img{
     display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 13%;
-  margin-top: 85px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 13%;
+    margin-top: 85px;
+}
+
+.brand-logo h1 {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
 }
 
 .disc{
@@ -40,11 +45,6 @@
     text-align: center;
     font-size: 16px;
     font-weight: 400;
-}
-
-.container {
-    padding-left: 180px;
-    padding-right: 180px;
 }
 
 .box {
@@ -63,7 +63,7 @@
 
 .navbar-brand {
     img {
-        width: 150px;
+        width: 40px;
     }
 }
 
@@ -122,5 +122,41 @@
     .product-price {
         font-size: 18px;
         font-weight: bold;
+    }
+}
+
+.card-header {
+    background-color: #383229;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #f15722;
+    border-color: #f15722;
+    border-radius: 0;
+
+    &:hover, &:active {
+        background-color: #383229!important;
+        border-color: #383229!important;
+    }
+
+    &:focus {
+        border-color: #383229!important;
+        box-shadow: none!important;
+        outline: none!important;
+    }
+}
+
+.btn-link {
+    color: #f15722!important;
+}
+
+.container {
+    width: 70%;
+}
+
+@media only screen and (max-width: 768px) {
+    .container {
+        width: 100%;
     }
 }

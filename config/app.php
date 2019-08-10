@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'e Smart Buy'),
+    'name' => env('APP_NAME', 'Market Analysis and Least Price Recommendation System'),
 
     /*
     |--------------------------------------------------------------------------

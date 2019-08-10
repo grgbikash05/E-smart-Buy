@@ -20,6 +20,86 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #29b6f6;
+        }
+
+        a.nav-link {
+            color: #ecf0f5;
+        }       
+
+        .imgCen {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 40px;
+            width: 40%;
+        }
+        .brand-logo img{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 40px;
+            margin-top: 20px;
+        }
+
+        .landingDisc p{
+            text-align: center;
+            color: #eeeeee;
+            font-size: 35px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            .imgCen {
+                margin-top: 60px;
+                width: 45%;
+            }
+
+            .brand-logo img {
+                width: 40px;
+            }
+
+            .landingDisc p {
+                font-size: 30px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .imgCen {
+                margin-top: 80px;
+                width: 55%;
+            }
+
+            .brand-logo img {
+                width: 40px;
+            }
+        }
+        
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            .imgCen {
+                margin-top: 90px;
+                width: 50%;
+            }   
+
+            .brand-logo img {
+                width: 40px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .imgCen {
+                margin-top: 100px;
+                width: 60%;
+            }
+
+            .landingDisc p {
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -35,13 +115,17 @@
             <a class="nav-link" href="{{ route('register') }}">Register</a>
         </li>
     </ul>
+    
+    <div class="center-img">
+        <img src="images/centerImg.png" class="imgCen">
+    </div>
 
     <div class="brand-logo">
-        <h1 style="text-align: center;">Best price finder</h1>
+        <img class="img-fluid" src="images/MSLP.png">
     </div>
 
     <div class="container landingDisc">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <p>We Care We Compare!</p>
     </div>
 </section>
 

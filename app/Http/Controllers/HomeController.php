@@ -83,7 +83,7 @@ class HomeController extends Controller
         if(count($similar) == 0)
             return 0;
         
-        foreach($preferences[$person1] as $key=>$value)
+        foreach($preferences[$person1] as $key => $value)
         {
             if(array_key_exists($key, $preferences[$person2]))
                 $sum = $sum + pow($value - $preferences[$person2][$key], 2);
